@@ -39,7 +39,7 @@ export function UpvoteWidget({ issueId, initialCount = 0 }: { issueId: string, i
     }
     
     checkVote()
-  }, [issueId, supabase])
+  }, [issueId, supabase, initialCount])
 
   const toggleVote = async () => {
     const { data: { session } } = await supabase.auth.getSession()

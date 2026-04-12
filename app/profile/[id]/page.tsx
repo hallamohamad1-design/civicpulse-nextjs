@@ -1,5 +1,6 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,7 +9,7 @@ export default async function ProfilePage({ params }: { params: { id: string } }
   const supabase = createClient()
   
   // Try to fetch profile from public profiles table
-  const { data: profile, error } = await supabase
+  const { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', params.id)
@@ -69,7 +70,7 @@ export default async function ProfilePage({ params }: { params: { id: string } }
           <CardContent>
             <p className="text-4xl font-bold text-green-600">
                {/* Compute sum of upvotes on issues */}
-               {issues?.reduce((acc: number, curr: any) => acc + (curr.vote_count || 0), 0) || 0}
+               {issues?.reduce((acc: number, curr: { vote_count?: number }) => acc + (curr.vote_count || 0), 0) || 0}
             </p>
           </CardContent>
         </Card>

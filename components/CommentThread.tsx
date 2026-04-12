@@ -46,7 +46,7 @@ export function CommentThread({ issueId }: { issueId: string }) {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'comments', filter: `issue_id=eq.${issueId}` },
-        (payload) => {
+        () => {
           // Manually refetch to get profile joins (since realtime doesn't join inherently)
           fetchComments()
         }

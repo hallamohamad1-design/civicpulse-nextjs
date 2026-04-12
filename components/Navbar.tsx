@@ -15,15 +15,16 @@ import {
 export function Navbar() {
   const router = useRouter()
   const supabase = createClient()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ user_metadata: { avatar_url?: string; full_name?: string }; id: string } | null>(null)
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const authClient = supabase.auth
+    const { data: { subscription } } = authClient.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
     })
     
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase.auth])
 
   const handleLogin = async () => {
     await supabase.auth.signInWithOAuth({

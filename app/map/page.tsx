@@ -1,9 +1,11 @@
-import dynamic from 'next/dynamic'
+export const dynamic = 'force-dynamic'
+
+import nextDynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase/server'
 
 // Leaflet relies on window object, which breaks SSR.
 // We rigorously ensure it's loaded strictly dynamically on the client side.
-const MapComponent = dynamic(
+const MapComponent = nextDynamic(
   () => import('@/components/InteractiveMap'),
   { 
     ssr: false,
