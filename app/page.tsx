@@ -66,7 +66,7 @@ const t: Record<string, any> = {
       { icon: '🗳️', t: 'Vote communautaire', d: "Votez pour les problèmes les plus urgents." },
       { icon: '🤖', t: 'Catégorisation IA', d: 'Claude AI classe automatiquement chaque rapport.' },
       { icon: '🔔', t: 'Notifications', d: 'Recevez des alertes instantanées sur les mises à jour.' },
-      { icon: '🌍', t: 'Multilingue', d: '8 langues supportées dont le français et l'arabe.' },
+      { icon: '🌍', t: 'Multilingue', d: "8 langues supportées dont le français et l'arabe." },
       { icon: '📊', t: 'Tableau de bord', d: 'Statistiques en direct et exports de données ouvertes.' },
     ],
     pipeline: 'Cycle de vie',
