@@ -14,19 +14,35 @@ import {
 
 export function Navbar() {
   const router = useRouter()
-  const supabase = createClient()
+  
+  // Safe Supabase initialization
+  const [supabase] = useState(() => {
+    try {
+      return createClient()
+    } catch (e) {
+      console.warn("Supabase client failed to initialize:", e)
+      return null
+    }
+  })
+  
   const [user, setUser] = useState<{ user_metadata: { avatar_url?: string; full_name?: string }; id: string } | null>(null)
 
   useEffect(() => {
+    if (!supabase) return;
+    
     const authClient = supabase.auth
     const { data: { subscription } } = authClient.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
     })
     
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, [supabase])
 
   const handleLogin = async () => {
+    if (!supabase) {
+      alert("Supabase is not configured. Please add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your environment variables.")
+      return
+    }
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -36,6 +52,7 @@ export function Navbar() {
   }
 
   const handleSignOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut()
     router.refresh()
   }
